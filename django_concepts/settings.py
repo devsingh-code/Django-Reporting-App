@@ -10,10 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-import environ
 
 
-environ.Env.read_env()
+
 
 from pathlib import Path
 
@@ -26,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,12 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #our apps
     'profiles',
     'reports',
     'products',
     'areas',
     'categories',
-    'environ',
+
+    #thirs party apps
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +142,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn","static_root")
 
 MEDIA_URL ="/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn","media_root")
+
+CRISPY_TEMPLATE_PACK ='bootstrap4'
