@@ -6,9 +6,36 @@
 {% endblock title %}
 
 {% block content %}
+
+
+<!-- Modal  Problem form-->
+<div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report Problems</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">  
+        <form action="" method="POST">              
+          {{pform | crispy}}
+          <input type="hidden" name="report_id" id="report_id">
+        </form>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container bg-white shadow-lg rounded py-2">
   <div class="row">
-    <div class="col-2">
+    <div class="col-2 bg-light">
       <form action="" method="POST">
         {{form| crispy}}
         <button type="submit" class="btn btn-primary btn-block shadow-sm mt-3"><i class="far fa-paper-plane pr-3"></i>Send</button>
@@ -16,8 +43,8 @@
     </div>
     <div class="col-10">
       <div style= "overflow-y:scroll" class="w-100 h-100 bg-light rounded border">
-        <table class="table">
-          <thead class="thead-light">
+        <table class="table table-light">
+          <thead class="thead-dark">
             <tr class="text-center">
               <th scope="col">Day</th>
               <th scope="col">Start</th>
@@ -42,7 +69,7 @@
               <td>{{obj.execution}}</td>
               <td>{{obj.production_line.name}}</td>
               <td class="fit">
-                <a href=""><button class="btn btn-warning"><i class="fas fa-exclamation-triangle"></i></button></a>
+                <button class="btn btn-warning open-modal" data-toggle="modal" data-url ={{obj.id}} data-target="#problemModal"><i class="fas fa-exclamation-triangle"></i></button>
               </td>
               <td class="fit">
                 <a href="" ><button class="btn btn-info"><i class="fas fa-edit"></i></button></a>
@@ -58,5 +85,13 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(".open-modal").on("click", function(){
+    const r_id = $(this).attr("data-url")
+    $("report_id").val(r_id)
+    console.log(r_id);
+  });
+</script>
 
 {% endblock content %}
